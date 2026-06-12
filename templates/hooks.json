@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "command": ".cursor/hooks/guard-edits.sh",
+        "matcher": "Write|StrReplace|Edit|MultiEdit|EditNotebook|Delete",
+        "failClosed": true
+      }
+    ]
+  }
+}
