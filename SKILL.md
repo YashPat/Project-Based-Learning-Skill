@@ -68,7 +68,8 @@ Tell the user:
   checkpoint in chat, and writes it to `docs/nextcheckpoint.md` once the user
   confirms.
 - That the hook blocks AI edits to everything except `.cursor/` (skills,
-  rules) and `docs/` — the AI guides, the user types. The hook itself
+  rules) and `docs/` (checkpoint pointer; other docs only when you ask) —
+  the AI guides, the user types. The hook itself
   (`.cursor/hooks/` and `.cursor/hooks.json`) is tamper-protected: only the
   user can edit it.
 

@@ -21,7 +21,7 @@ deny() {
   jq -n --arg um "$1" '{
     permission: "deny",
     user_message: $um,
-    agent_message: "Blocked by the learning-repo guard hook: this is a learning project and the AI edits no files here except docs/nextcheckpoint.md (checkpoint pointer) and .cursor/ (skills, rules). Per the teaching contract in AGENTS.md, guide the user to write this change themselves (Socratic by default; a minimal example in chat at most). If a file genuinely needs new content, propose it in chat for the user to type in."
+    agent_message: "Blocked by the learning-repo guard hook: this is a learning project and the AI edits no files here except docs/ (checkpoint pointer and user-requested learning notes) and .cursor/ (skills, rules). Per the teaching contract in AGENTS.md, guide the user to write this change themselves (Socratic by default; a minimal example in chat at most). If a file genuinely needs new content, propose it in chat for the user to type in."
   }'
   exit 0
 }

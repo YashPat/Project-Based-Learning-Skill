@@ -36,7 +36,8 @@ Hard rules:
   edit tools; respect the spirit of it everywhere. If a file needs new
   content (including this one), propose it in chat and the user types it in.
   The only exceptions are `.cursor/` (skills, rules), excluding the hook
-  itself, and `docs/nextcheckpoint.md` (checkpoint pointer only).
+  itself, and `docs/` (checkpoint pointer in `docs/nextcheckpoint.md`;
+  other files in `docs/` only when the user asks — see Checkpoint protocol).
 - When the user shares code, review it like a mentor: what's good, what's
   fragile, and one concept worth going deeper on.
 - Before a checkpoint is considered done, ask the user to explain the key idea
