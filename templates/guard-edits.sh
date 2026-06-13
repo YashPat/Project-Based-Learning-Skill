@@ -10,19 +10,9 @@ command -v jq >/dev/null 2>&1 || exit 2
 
 input=$(cat)
 
-# Belt-and-suspenders: the hooks.json matcher should already scope us to edit
-# tools, but re-check here in case it over-matches.
-tool=$(echo "$input" | jq -r '.tool_name // .tool // .toolName // empty')
-
-case "$tool" in
-  Write|StrReplace|Edit|MultiEdit|EditNotebook|Delete|write|edit|delete) ;;
-  *)
-    echo '{ "permission": "allow" }'
-    exit 0
-    ;;
-esac
-
-path=$(echo "$input" | jq -r '
+# The anchored matcher in hooks.json scopes this hook to edit tools; anything
+# that reaches here goes straight to the path check, which denies by default.
+path=$(printf '%s' "$input" | jq -r '
   .tool_input.path // .tool_input.file_path // .tool_input.target_file //
   .tool_input.target_notebook // .input.path // .input.file_path // empty')
 

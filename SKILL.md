@@ -36,9 +36,11 @@ named one, use it; otherwise create a new directory named after the project
 Then:
 
 1. Verify `jq` is installed (`command -v jq`); the hook needs it. If missing,
-   tell the user how to install it (`brew install jq`) and continue — the
-   hook fails closed without it, so AI edits stay blocked either way.
-2. `git init` in the target directory
+   tell the user how to install it (`brew install jq`) and continue — without
+   jq the hook fails closed and blocks ALL AI edits, including the `.cursor/`
+   carve-out for skills and rules, until jq is installed.
+2. `git init` in the target directory. If the directory is already inside an
+   existing git repo, stop and ask before creating a nested repo.
 3. Write `AGENTS.md` from [templates/AGENTS.template.md](templates/AGENTS.template.md),
    filling every `{{PLACEHOLDER}}`. Keep all other text verbatim — especially
    the Teaching contract and Planning protocol sections.

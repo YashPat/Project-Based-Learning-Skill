@@ -4,7 +4,7 @@
     "preToolUse": [
       {
         "command": ".cursor/hooks/guard-edits.sh",
-        "matcher": "Write|StrReplace|Edit|MultiEdit|EditNotebook|Delete",
+        "matcher": "^(Write|StrReplace|Edit|MultiEdit|EditNotebook|Delete)$",
         "failClosed": true
       }
     ]
