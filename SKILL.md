@@ -18,12 +18,19 @@ first checkpoint from the goal and repo state.
 
 ## Workflow
 
-### Step 1: Get the goal
+### Step 1: Get the goal and learner context
 
 The project goal usually comes with the invocation (e.g. `/learn-init build a
-toy redis in Go`). If no goal was given, ask for it. Do not ask anything else
-unless the goal is too vague to infer a stack from (then ask one clarifying
-question).
+toy redis in Go`). If no goal was given, ask for it.
+
+If the goal is too vague to infer a stack from, ask one clarifying question.
+
+Then ask one experience question before scaffolding — derive the topic from
+the goal (language, framework, domain). Example: "What's your background with
+Go and networking? (e.g. 'comfortable in Go, never done TCP' or 'new to
+programming')". Use the answer verbatim for `{{LEARNER_CONTEXT}}`. If the user
+already stated their experience in the goal or a follow-up, do not ask again —
+extract it instead.
 
 ### Step 2: Scaffold the repo
 
@@ -56,8 +63,10 @@ Tell the user:
 - Where the repo was created, and to open it as its own Cursor workspace
   (hooks load from the project root, so they do not work from a parent
   folder).
-- To start working — the agent reads the goal and repo, then sets the first
-  incremental checkpoint in `docs/nextcheckpoint.md`.
+- To start working — the agent reads the goal, learner context,
+  `docs/nextcheckpoint.md`, and the repo, proposes the first incremental
+  checkpoint in chat, and writes it to `docs/nextcheckpoint.md` once the user
+  confirms.
 - That the hook blocks AI edits to everything except `.cursor/` (skills,
   rules) and `docs/` — the AI guides, the user types. The hook itself
   (`.cursor/hooks/` and `.cursor/hooks.json`) is tamper-protected: only the
@@ -69,3 +78,4 @@ Tell the user:
 |---|---|
 | `{{GOAL}}` | The user's goal, verbatim |
 | `{{TITLE}}` | Short project title derived from the goal |
+| `{{LEARNER_CONTEXT}}` | The user's experience with the relevant stack and topic, verbatim |
