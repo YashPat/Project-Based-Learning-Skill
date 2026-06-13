@@ -1,6 +1,7 @@
 #!/bin/bash
 # Learning-repo guard: blocks AI edits to everything except .cursor/**
-# (and even there, .cursor/hooks/** and .cursor/hooks.json are tamper-protected).
+# and docs/** (and even there, .cursor/hooks/** and .cursor/hooks.json are
+# tamper-protected).
 # The AI guides, the user types.
 
 # Without jq the script would silently allow everything, so hard-block instead
@@ -20,7 +21,7 @@ deny() {
   jq -n --arg um "$1" '{
     permission: "deny",
     user_message: $um,
-    agent_message: "Blocked by the learning-repo guard hook: this is a learning project and the AI edits no files here. Per the teaching contract in AGENTS.md, guide the user to write this change themselves (Socratic by default; a minimal example in chat at most). If a file genuinely needs new content, propose it in chat for the user to type in."
+    agent_message: "Blocked by the learning-repo guard hook: this is a learning project and the AI edits no files here except docs/nextcheckpoint.md (checkpoint pointer) and .cursor/ (skills, rules). Per the teaching contract in AGENTS.md, guide the user to write this change themselves (Socratic by default; a minimal example in chat at most). If a file genuinely needs new content, propose it in chat for the user to type in."
   }'
   exit 0
 }
@@ -39,6 +40,13 @@ esac
 
 case "$path" in
   .cursor/*|*/.cursor/*)
+    echo '{ "permission": "allow" }'
+    exit 0
+    ;;
+esac
+
+case "$path" in
+  docs/*|*/docs/*)
     echo '{ "permission": "allow" }'
     exit 0
     ;;
