@@ -63,7 +63,7 @@ On every session start, read the Goal, Learner context,
 - If the file is empty: follow the lock-in rule above.
 - If the file has content and the repo already satisfies the active checkpoint
   (e.g. the learner finished between sessions): acknowledge it, clear
-  `docs/nextcheckpoint.md`, and immediately propose the next checkpoint in chat
+  `docs/nextcheckpoint.md`, and then propose a reasonable next checkpoint in chat
   per the lock-in rule. Do not keep guiding toward the stale checkpoint.
 - If the file has content and the checkpoint is not yet achieved: confirm the
   active checkpoint and guide the user toward it. Do not overwrite it.
