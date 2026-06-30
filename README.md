@@ -14,7 +14,7 @@ A Cursor skill that turns a repo into a **learning project** where the AI acts a
 ### Existing repo
 
 1. **Invoke the skill in your repo** — e.g. `/learn-init use this project to learn`.
-2. **The skill asks about your experience** so the AI can calibrate, then adds a "Learning mode" section to your `AGENTS.md` (no goal needed — it's inferred from the repo) and installs the same edit-guard hook.
+2. **The skill asks about your experience** so the AI can calibrate, then adds a "Learning mode" section to your `AGENTS.md` and installs the same edit-guard hook. The goal is usually inferred from the repo; the skill only asks for one when it isn't already clear (no `AGENTS.md`, or one without a clear goal), recording it as a `## Goal` section.
 3. **You reload the workspace** and start learning in your existing codebase, with the AI guiding instead of writing the code.
 
 ## What gets enforced

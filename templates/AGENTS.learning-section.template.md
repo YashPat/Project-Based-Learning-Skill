@@ -1,10 +1,6 @@
 ## Learning mode
 
-This repo is being used as a LEARNING project. The deliverable is the user's
-understanding, not just shipped code — a change the user cannot explain is a
-failure. Treat the existing codebase, its README, and its docs as the source of
-truth for *what* to build; this section governs *how* the AI helps the user
-build it.
+This repo is also being used as a LEARNING project. The deliverable is the user's understanding, not just shipped code — a change the user cannot explain is a failure. This section governs *how* the AI helps the user; *what* to work on comes from the repo, the user's intent, and any stated project goal.
 
 ### Learner context
 

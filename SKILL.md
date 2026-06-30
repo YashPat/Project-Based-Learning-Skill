@@ -22,9 +22,10 @@ Two modes:
   hook, and nothing else. The agent derives the first checkpoint from the goal
   and repo state.
 - **Existing repo** — the user already has a codebase and wants to learn by
-  working in it. The project goal is derivable from the repo itself, so
-  `AGENTS.md` does **not** need a goal. Instead, gauge the learner's level, add
-  a mentor/teaching contract to `AGENTS.md`, and install the edit guard.
+  working in it. The project goal is usually derivable from the repo itself, so
+  we only capture one when it isn't already clear (see Step 3b). Gauge the
+  learner's level, add a mentor/teaching contract to `AGENTS.md`, and install the
+  edit guard.
 
 ## Step 1: Pick the mode
 
@@ -38,11 +39,15 @@ Two modes:
 
 ## Step 2: Gather context
 
-Both modes need **learner context**. New repo also needs the **goal**.
+Both modes need **learner context**. A **goal** is needed for: a new repo; an
+existing repo with no `AGENTS.md`; and an existing repo whose `AGENTS.md` does
+not make the project goal clear.
 
-- **Goal (new repo only):** usually comes with the invocation (e.g. `/learn-init
-  build a toy redis in Go`). If it is missing, or too vague to infer a stack
-  from, ask one clarifying question.
+- **Goal:** for a new repo it usually comes with the invocation (e.g.
+  `/learn-init build a toy redis in Go`); if it is missing, or too vague to
+  infer a stack from, ask one clarifying question. For an existing repo, only
+  ask when the goal is not already clear from the repo and any existing
+  `AGENTS.md` (see Step 3b) — stay silent when it is crisp.
 - **Learner context (both modes):** ask one experience question, with the topic
   derived from the goal (new repo) or from the repo's stack and domain (existing
   repo). Example: "What's your background with Go and networking? (e.g.
@@ -76,8 +81,9 @@ Then:
 
 ## Step 3b: Existing repo — augment
 
-Do not scaffold new project files and do not add a goal — the repo already
-defines what to build. Work from the repo root.
+Do not scaffold new project files. The repo usually already defines what to
+build, so only capture a goal when it is not already clear (see item 3). Work
+from the repo root.
 
 1. Verify `jq` is installed (`command -v jq`); the hook needs it. If missing,
    tell the user how to install it (`brew install jq`) and continue — without
@@ -85,13 +91,25 @@ defines what to build. Work from the repo root.
 2. Confirm the repo root with `git rev-parse --show-toplevel` and run the
    remaining steps there. If the path is not a git repo, switch to **New repo**
    mode (or ask).
-3. Update `AGENTS.md` using
-   [templates/AGENTS.learning-section.template.md](templates/AGENTS.learning-section.template.md),
-   filling `{{LEARNER_CONTEXT}}`:
-   - If `AGENTS.md` does not exist, create it from the learning-section template.
-   - If it exists, append the learning section to the end; do not remove or
-     rewrite the user's existing content. If a "Learning mode" section is
-     already present, update it in place instead of duplicating it.
+3. Update `AGENTS.md`. First judge whether the project goal is clear from the
+   repo and any existing `AGENTS.md` (skim an obvious `README` too) — it counts
+   as clear if those already articulate what the project is or does. Then:
+   - If `AGENTS.md` does not exist: create it from
+     [templates/AGENTS.template.md](templates/AGENTS.template.md), filling
+     `{{TITLE}}`, `{{GOAL}}`, and `{{LEARNER_CONTEXT}}` (capture a goal as in
+     Step 2). This is the same fill as new-repo Step 3a item 3.
+   - If `AGENTS.md` exists: append the learning section from
+     [templates/AGENTS.learning-section.template.md](templates/AGENTS.learning-section.template.md),
+     filling `{{LEARNER_CONTEXT}}`. Do not remove or rewrite the user's existing
+     content. If a "Learning mode" section is already present, update it in
+     place instead of duplicating it. Handle the goal by case:
+     - Crisp goal already present → add no goal text.
+     - Vague goal already stated (in whatever section — `## Goal`, `## Purpose`,
+       `## Overview`, etc.) → draft a sharper goal, confirm it in chat, then
+       refine that section in place (do not duplicate).
+     - No goal stated anywhere → capture and confirm a goal (Step 2), then
+       insert a top-level `## Goal` section (same format as `AGENTS.template.md`)
+       *above* the appended `## Learning mode` section.
 4. Create `docs/nextcheckpoint.md` as an empty file if it does not already
    exist. Do not touch it if the user already has one.
 5. Install the edit guard:
@@ -113,11 +131,11 @@ Tell the user:
 - (New repo) where the repo was created, and to open it as its own Cursor
   workspace; (existing repo) to reload/reopen the workspace so the hook loads —
   hooks load from the project root, so they do not work from a parent folder.
-- To start working — the agent reads the goal (the user's stated goal for a new
-  repo, or the repo itself for an existing one), the learner context,
-  `docs/nextcheckpoint.md`, and the repo, proposes the first incremental
-  checkpoint in chat, and writes it to `docs/nextcheckpoint.md` once the user
-  confirms.
+- To start working — the agent reads the goal (the user's stated goal, a
+  captured/sharpened goal written into `AGENTS.md`, or the repo itself when the
+  goal was already clear), the learner context, `docs/nextcheckpoint.md`, and
+  the repo, proposes the first incremental checkpoint in chat, and writes it to
+  `docs/nextcheckpoint.md` once the user confirms.
 - That the hook blocks AI edits to everything except `.cursor/` (skills, rules)
   and `docs/` (checkpoint pointer; other docs only when you ask) — the AI
   guides, the user types. The hook itself (`.cursor/hooks/` and
@@ -127,6 +145,6 @@ Tell the user:
 
 | Placeholder | Content | Modes |
 |---|---|---|
-| `{{GOAL}}` | The user's goal, verbatim | New repo |
-| `{{TITLE}}` | Short project title derived from the goal | New repo |
+| `{{GOAL}}` | The user's goal, verbatim | New repo; existing repo with no `AGENTS.md` (and, as a top-level `## Goal`, when an existing `AGENTS.md` has no clear goal) |
+| `{{TITLE}}` | Short project title derived from the goal | New repo; existing repo with no `AGENTS.md` |
 | `{{LEARNER_CONTEXT}}` | The user's experience with the relevant stack and topic, verbatim | Both |
